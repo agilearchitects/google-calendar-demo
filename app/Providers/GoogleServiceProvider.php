@@ -20,7 +20,7 @@ class GoogleServiceProvider extends ServiceProvider
 
         // Singleton binding for google client
         $this->app->singleton(\App\Google\Client::class, function($app) {
-            return new \App\Google\Client(new Google_Client(), $this->app->make(FileSystem::class), "./credentials.json", "./token.json");
+            return new \App\Google\Client($this->app->make(Google_Client::class), $this->app->make(FileSystem::class), "./credentials.json", "./token.json");
         });
 
         // Singleton binding for google claendar
