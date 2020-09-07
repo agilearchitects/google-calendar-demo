@@ -15,6 +15,7 @@ class Client {
     string $tokenPath
   ) {
     $this->tokenPath = $tokenPath;
+    $this->fileSystem = $fileSystem;
 
     // Create client
     $this->nativeClient = $nativeClient;
@@ -25,8 +26,8 @@ class Client {
     $this->nativeClient->setPrompt('select_account consent');
     
     // Check for token file at path and set access token to client
-    if ($fileSystem->exists($this->tokenPath)) {
-      $accessToken = json_decode($fileSystem->getContent($this->tokenPath), true);
+    if ($this->fileSystem->exists($this->tokenPath)) {
+      $accessToken = json_decode($this->fileSystem->getContent($this->tokenPath), true);
       $this->nativeClient->setAccessToken($accessToken);
     }
   }
@@ -58,7 +59,7 @@ class Client {
           throw new Exception(join(', ', $accessToken));
         }
       }
-      $fileSystem->putContent($this->tokenPath, json_encode($this->nativeClient->getAccessToken()));
+      $this->fileSystem->putContent($this->tokenPath, json_encode($this->nativeClient->getAccessToken()));
     }
     // Return google client
     return $this->nativeClient;
