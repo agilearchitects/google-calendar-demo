@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get("calendar", "CalendarController@show")
+Route::get("calendar", "CalendarController@index")
 ->where("year", "[1-9]{4}")
 ->where("week", "[0-9]{1-2}");
+
+Route::post("calendar", "CalendarController@store");

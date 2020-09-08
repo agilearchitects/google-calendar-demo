@@ -1,6 +1,7 @@
 <?php namespace App\Google;
 
 use Google_Service_Calendar;
+use Google_Service_Calendar_Event;
 
 class Event {
   public string $id;
@@ -16,6 +17,10 @@ class Event {
 class AddEvent {
   public string $title;
   public string $when;
+  public function __construct($title, $when) {
+    $this->title = $title;
+    $this->when = $when;
+  }
 }
 
 class UpdateEvent {
@@ -57,7 +62,12 @@ class Calendar {
   }
 
   public function add(AddEvent $addEvent) {
-    
+    $date = new \DateTime($addEvent->when);
+    $this->service->events->insert("primary", new Google_Service_Calendar_Event([
+      "summary" => $addEvent->title,
+      "start" => ["dateTime" => $date->format("c") ],
+      "end" => ["dateTime" => $date->modify("+1 hour")->format("c") ],
+    ]));
   } 
   public function update(UpdateEvent $updateEvent) {
 
