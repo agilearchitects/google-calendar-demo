@@ -5,7 +5,7 @@ use Google_Service_Calendar;
 use App\FS\FileSystem;
 
 class Client {
-  private Google_Client $nativeClient;
+  public Google_Client $nativeClient;
   private string $tokenPath;
 
   public function __construct(
